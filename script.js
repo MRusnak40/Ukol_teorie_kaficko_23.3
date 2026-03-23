@@ -5,8 +5,11 @@ document.addEventListener('DOMContentLoaded', () => {
     let div_lide = document.getElementById("user-list");
     let div_napoje = document.getElementById("drink-list");
 
-    let teplate_lidi = document.getElementById("template_lidi");
-    let teplate_drinky = document.getElementById("template_drinky");
+    let template_lidi = document.getElementById("template_lidi");
+    let template_drinky = document.getElementById("template_drinky");
+
+    let odeslatBtn = document.getElementById("submit-btn");
+    let valueOFSlider = document.getElementById("valueOfSlider");
 
     LoadDataName();
     LoadListDrinks();
@@ -22,9 +25,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     let clovek = data[key];
 
 
-                    let copy = teplate_lidi.content.cloneNode(true);
 
-                    
+                    let copy = template_lidi.content.cloneNode(true);
+
+
                     copy.querySelector("span").innerText = clovek.name;
                     copy.querySelector("input").value = clovek.ID;
 
@@ -43,13 +47,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 for (let klic in data) {
                     let napoj = data[klic];
 
-                    let copy = teplate_drinky.content.cloneNode(true);
-
+                    let copy = template_drinky.content.cloneNode(true);
+                    let valueOFSlider = copy.getElementById("valueOfSlider");
+                    
                     copy.querySelector("span").innerText = napoj.typ;
 
 
                     let slider = copy.querySelector("input");
                     slider.setAttribute("data-typ", napoj.typ);
+
+
+
+
+                    slider.addEventListener("input", () => {
+
+                        valueOFSlider.innerText = slider.value;
+
+                    });
+
 
                     div_napoje.appendChild(copy);
                 }
@@ -57,7 +72,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    let odeslatBtn = document.getElementById("submit-btn");
 
     odeslatBtn.addEventListener("click", () => {
 
