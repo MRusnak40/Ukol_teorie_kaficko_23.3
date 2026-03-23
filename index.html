@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coffee Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Coffee Tracker</h1>
+
+        <section id="user-selection">
+            <h3>Kdo pije?</h3>
+
+            <div id="user-list" class="radio-group">
+
+                <p>Načítám uživatele...</p>
+
+
+            </div>
+
+
+            <template id="template_lidi">
+                <div>
+                    <input name="skupina_lide" type="radio" class="u-check">
+                    <span class="u-name"></span>
+                </div>
+
+            </template>
+
+
+        </section>
+
+        <hr>
+
+        <section id="drink-selection">
+            <h3>Co piješ?</h3>
+
+            <div id="drink-list">
+
+
+            </div>
+
+
+            <template id="template_drinky">
+                <div>
+                    <span class="d-name"></span>
+                    <input type="range" class="d-slider" min="0" max="10" value="0">
+                </div>
+            </template>
+
+        </section>
+
+        <button id="submit-btn">Odeslat záznam</button>
+        <div id="status-msg"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+
+</html>
