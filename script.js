@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let vybranyClovek = document.querySelector("#user-list input:checked");
 
         if (vybranyClovek == null) {
-            alert("Musíš vybrat člověka");
+            alert("Choose WHO");
             return;
         }
 
@@ -142,13 +142,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (res.ok) {
 
                     SendDataFromLocal(); //should check data from local and send it with new ones
-                    return alert("Úspěšně odesláno");
+                    return alert("Sucessfuly sent");
 
                 }
 
-
+                alert("Error on server data will be saved util u will be online again");
                 SaveDataFromLocalSt(dataProServer);
-                return alert("Chyba se serverem ukladani dokud se zase nepripojite");
+                return;
 
 
             })
@@ -158,10 +158,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function SaveDataFromLocalSt(data) {
 
-        let dataList = JSON.parse(localStorage.getItem("dataOffline")) || []; 
-        dataList.push(data); 
+        let dataList = JSON.parse(localStorage.getItem("dataOffline")) || [];
+        dataList.push(data);
         localStorage.setItem("dataOffline", JSON.stringify(dataList));
 
+        console.log("Data saved in localsotorage")
+        return alert("data saved to local storage")
 
     }
 
@@ -206,7 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
                     SaveDataFromLocalSt();
-                    return alert("Chyba se serverem ukladani dokud se zase nepripojite");
+                    //return alert("Chyba se serverem ukladani dokud se zase nepripojite");
 
 
                 })
