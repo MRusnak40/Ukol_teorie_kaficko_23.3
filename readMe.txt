@@ -1,0 +1,2 @@
+vybral jsem local storage protoze chci aby pri zavrani prohlizece ulozili data a poak poslali pri nacteni dat pri navstiveni webu znova
+sessin storage je bezpecnejsi ale toto jsou data co uzivatel uz nevidi a ja je chci ulozit aby se s nima dalo dale pracovat
