@@ -13,10 +13,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     LoadDataName();
     LoadListDrinks();
-
+    //loads names
     function LoadDataName() {
         fetch(aPI_URL + "getPeopleList")
-            .then(res => res.json())
+            .then(res => {
+
+                if (!res.ok) {
+                    throw new Error(res.status);
+                }
+
+                return res.json()
+            }
+
+
+
+            )
             .then(data => {
                 div_lide.innerHTML = "";
 
@@ -37,19 +48,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }).catch(err => console.log(err));
     }
-
+    //loads drinks
     function LoadListDrinks() {
         fetch(aPI_URL + "getTypesList")
-            .then(res => res.json())
+            .then(res => {
+
+                if (!res.ok) {
+                    throw new Error(res.status);
+                }
+
+                return res.json()
+            })
             .then(data => {
                 div_napoje.innerHTML = "";
 
-                for (let klic in data) {
-                    let napoj = data[klic];
+                for (let key in data) {
+                    let napoj = data[key];
 
                     let copy = template_drinky.content.cloneNode(true);
                     let valueOFSlider = copy.getElementById("valueOfSlider");
-                    
+
                     copy.querySelector("span").innerText = napoj.typ;
 
 
@@ -115,11 +133,99 @@ document.addEventListener('DOMContentLoaded', () => {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(dataProServer)
+
         })
+
             .then(res => {
-                alert("Úspěšně odesláno");
+
+
+                if (res.ok) {
+
+                    SendDataFromLocal(); //should check data from local and send it with new ones
+                    return alert("Úspěšně odesláno");
+
+                }
+
+
+                SaveDataFromLocalSt(dataProServer);
+                return alert("Chyba se serverem ukladani dokud se zase nepripojite");
+
+
             })
             .catch(err => console.log(err));
     });
+
+
+    function SaveDataFromLocalSt(data) {
+
+        let dataList = JSON.parse(localStorage.getItem("dataOffline")) || []; 
+        dataList.push(data); 
+        localStorage.setItem("dataOffline", JSON.stringify(dataList));
+
+
+    }
+
+    function SendDataFromLocal() {
+
+
+
+        let getDatas = JSON.parse(localStorage.getItem("dataOffline")) || []; //if null returns emtpy list
+
+        if (getDatas == null) {
+            return;
+        }
+
+        getDatas.forEach(element => {
+
+            let dataProServer = {
+                "user": element.user,
+                "drinks": element.drinks
+            };
+
+
+
+            fetch(aPI_URL + "saveDrinks", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(dataProServer)
+
+            })
+
+                .then(res => {
+
+
+                    if (res.ok) {
+
+
+                        console.log("data sent")
+                        localStorage.removeItem("dataOffline");
+                        return;
+                    }
+
+
+                    SaveDataFromLocalSt();
+                    return alert("Chyba se serverem ukladani dokud se zase nepripojite");
+
+
+                })
+                .catch(err => console.log(err));
+
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
 
 });
